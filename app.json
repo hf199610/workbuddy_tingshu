@@ -1,0 +1,51 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/books/books",
+    "pages/quotes/quotes",
+    "pages/user/user",
+    "pages/book-detail/book-detail"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#1a1a2e",
+    "navigationBarTitleText": "听书金句",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#ff6b6b",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "assets/icons/home.png",
+        "selectedIconPath": "assets/icons/home-active.png"
+      },
+      {
+        "pagePath": "pages/books/books",
+        "text": "书籍",
+        "iconPath": "assets/icons/book.png",
+        "selectedIconPath": "assets/icons/book-active.png"
+      },
+      {
+        "pagePath": "pages/quotes/quotes",
+        "text": "金句",
+        "iconPath": "assets/icons/quote.png",
+        "selectedIconPath": "assets/icons/quote-active.png"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "我的",
+        "iconPath": "assets/icons/user.png",
+        "selectedIconPath": "assets/icons/user-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "cloud": true
+}

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "金句库",
+  "usingComponents": {
+    "mini-player": "../../components/mini-player/mini-player"
+  }
+}

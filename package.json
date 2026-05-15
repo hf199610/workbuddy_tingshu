@@ -1,0 +1,8 @@
+{
+  "name": "tingshu-miniprogram",
+  "version": "1.0.0",
+  "description": "听书金句小程序",
+  "main": "app.js",
+  "dependencies": {},
+  "devDependencies": {}
+}

@@ -1,0 +1,78 @@
+<!--pages/books/books.wxml - 书籍列表页（匹配原型）-->
+<view class="page-container">
+  <!-- 搜索栏 -->
+  <view class="search-header" bindtap="onSearchTap">
+    <view class="search-bar">
+      <text class="search-icon">🔍</text>
+      <text class="search-text">搜索书名/作者</text>
+    </view>
+  </view>
+
+  <!-- 筛选栏 -->
+  <view class="filter-section">
+    <scroll-view scroll-x class="filter-scroll">
+      <view class="filter-list">
+        <text class="filter-item {{categoryId === item.id ? 'active' : ''}}" 
+              wx:for="{{categories}}" 
+              wx:key="id"
+              bindtap="onCategoryTap"
+              data-id="{{item.id}}">
+          {{item.name}}
+        </text>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 书籍统计 -->
+  <view class="list-toolbar">
+    <text class="book-count">共 {{books.length}} 本书</text>
+  </view>
+
+  <!-- 书籍网格 -->
+  <view class="book-grid">
+    <view class="book-card" 
+          wx:for="{{books}}" 
+          wx:key="id"
+          bindtap="onBookTap"
+          data-id="{{item.id}}">
+      <view class="book-cover-wrap">
+        <view class="book-cover-grid" style="background: {{item.color}}">
+          <text class="cover-title">{{item.title}}</text>
+        </view>
+        <view class="book-badge">{{item.duration}}</view>
+      </view>
+      <view class="book-info">
+        <text class="book-title-card">{{item.title}}</text>
+        <text class="book-author-card">{{item.author}}</text>
+        <view class="book-tags">
+          <text class="tag">讲解音频</text>
+          <text class="tag featured" wx:if="{{item.featured}}">精选</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{books.length === 0}}">
+    <text class="empty-icon">📚</text>
+    <text class="empty-text">暂无书籍</text>
+  </view>
+</view>
+
+<!-- 搜索浮层 -->
+<search-overlay 
+  id="searchOverlay" 
+  show="{{showSearch}}" 
+  bind:close="onCloseSearch"
+/>
+
+<!-- 迷你播放器 -->
+<mini-player 
+  id="miniPlayer"
+  show="{{showMiniPlayer}}"
+  title="{{playerState.title}}"
+  subtitle="{{playerState.subtitle}}"
+  coverColor="{{playerState.coverColor}}"
+  isPlaying="{{playerState.isPlaying}}"
+  bind:openplayer="onOpenPlayer"
+/>

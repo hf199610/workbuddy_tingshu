@@ -1,0 +1,85 @@
+<!--pages/quotes/quotes.wxml - 金句列表页（匹配原型）-->
+<view class="page-container">
+  <!-- 搜索栏 -->
+  <view class="search-header" bindtap="onSearchTap">
+    <view class="search-bar">
+      <text class="search-icon">🔍</text>
+      <text class="search-text">搜索金句内容</text>
+    </view>
+  </view>
+
+  <!-- 筛选栏 -->
+  <view class="filter-section">
+    <scroll-view scroll-x class="filter-scroll">
+      <view class="filter-list">
+        <text class="filter-item {{currentFilter === 'all' ? 'active' : ''}}" 
+              bindtap="onFilterTap"
+              data-type="all">全部</text>
+        <text class="filter-item {{currentFilter === 'hot' ? 'active' : ''}}" 
+              bindtap="onFilterTap"
+              data-type="hot">热门</text>
+        <text class="filter-item {{currentFilter === 'liked' ? 'active' : ''}}" 
+              bindtap="onFilterTap"
+              data-type="liked">精选</text>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 金句统计 -->
+  <view class="list-toolbar">
+    <text class="quote-count">共 {{quotes.length}} 条金句</text>
+  </view>
+
+  <!-- 金句列表 -->
+  <view class="quotes-waterfall">
+    <view class="quote-card" 
+          wx:for="{{quotes}}" 
+          wx:key="id"
+          bindtap="onQuoteTap"
+          data-bookid="{{item.bookId}}">
+      <view class="quote-content-text">{{item.content}}</view>
+      <view class="quote-footer">
+        <view class="author-info">
+          <text class="author-name">{{item.author}}</text>
+          <text class="book-name-q">《{{item.bookName}}》</text>
+        </view>
+        <view class="action-icons">
+          <view class="icon-action" catchtap="onPlayQuote" data-id="{{item.id}}">
+            <text class="icon-play">▶</text>
+            <text class="play-count">{{item.playCount || 0}}</text>
+          </view>
+          <view class="icon-action" catchtap="onCopyQuote" data-content="{{item.content}}">
+            <text class="icon-copy">📋</text>
+          </view>
+          <view class="icon-action" catchtap="onFavoriteQuote" data-id="{{item.id}}">
+            <text class="icon-fav">{{item.isFavorite ? '❤️' : '🤍'}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{quotes.length === 0}}">
+    <text class="empty-icon">💬</text>
+    <text class="empty-text">暂无金句</text>
+  </view>
+</view>
+
+<!-- 搜索浮层 -->
+<search-overlay 
+  id="searchOverlay" 
+  show="{{showSearch}}" 
+  bind:close="onCloseSearch"
+/>
+
+<!-- 迷你播放器 -->
+<mini-player 
+  id="miniPlayer"
+  show="{{showMiniPlayer}}"
+  title="{{playerState.title}}"
+  subtitle="{{playerState.subtitle}}"
+  coverColor="{{playerState.coverColor}}"
+  isPlaying="{{playerState.isPlaying}}"
+  bind:openplayer="onOpenPlayer"
+/>

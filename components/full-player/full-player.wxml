@@ -1,0 +1,71 @@
+<!--components/full-player/full-player.wxml - 全屏播放器-->
+<view class="full-player" wx:if="{{show}}" bindtap="onMaskTap">
+  <!-- 背景模糊层 -->
+  <view class="player-bg" style="background: linear-gradient(135deg, {{coverColor}} 0%, #1a1a2e 100%)"></view>
+  <view class="bg-blur"></view>
+  
+  <!-- 主内容区域 -->
+  <view class="player-content" catchtap="onContentTap">
+    <!-- 关闭按钮 -->
+    <view class="close-btn" bindtap="onClose">
+      <text>↓</text>
+    </view>
+    
+    <!-- 封面区域 -->
+    <view class="cover-section">
+      <view class="cover-container {{isPlaying ? 'playing' : ''}}">
+        <view class="cover" style="background-color: {{coverColor}}">
+          <text class="cover-text">{{title ? title[0] : '?'}}</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 文字信息 -->
+    <view class="info-section">
+      <text class="player-title">{{title || '未播放'}}</text>
+      <text class="player-author">{{author || ''}}</text>
+      <text class="player-duration">讲解时长：{{duration || '00:00'}}</text>
+    </view>
+    
+    <!-- 进度条 -->
+    <view class="progress-section">
+      <text class="time current-time">{{currentTime}}</text>
+      <view class="progress-bar" bindtap="onProgressTap">
+        <view class="progress-bg"></view>
+        <view class="progress-fill" style="width: {{progress}}%"></view>
+        <view class="progress-dot" style="left: {{progress}}%"></view>
+      </view>
+      <text class="time total-time">{{totalTime}}</text>
+    </view>
+    
+    <!-- 播放控制 -->
+    <view class="controls-section">
+      <view class="control-btn prev" bindtap="onPrev">
+        <text>⏮</text>
+      </view>
+      <view class="control-btn play {{isPlaying ? 'playing' : ''}}" bindtap="onPlayPause">
+        <text>{{isPlaying ? '❚❚' : '▶'}}</text>
+      </view>
+      <view class="control-btn next" bindtap="onNext">
+        <text>⏭</text>
+      </view>
+    </view>
+    
+    <!-- 额外操作 -->
+    <view class="extra-controls">
+      <view class="extra-btn {{isFavorite ? 'active' : ''}}" bindtap="onFavorite">
+        <text>{{isFavorite ? '❤️' : '🤍'}}</text>
+        <text class="btn-label">收藏</text>
+      </view>
+      <view class="extra-btn" bindtap="onShare">
+        <text>📤</text>
+        <text class="btn-label">分享</text>
+      </view>
+    </view>
+    
+    <!-- 底部提示 -->
+    <view class="bottom-tip">
+      <text class="tip-text">支持后台播放和锁屏播放</text>
+    </view>
+  </view>
+</view>

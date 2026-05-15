@@ -1,0 +1,132 @@
+<!--pages/index/index.wxml - 首页-->
+<view class="page-container">
+  <!-- 搜索栏 -->
+  <view class="search-header" bindtap="onSearchTap">
+    <view class="search-bar">
+      <text class="search-icon">🔍</text>
+      <text class="search-text">搜索书名/作者/金句</text>
+    </view>
+  </view>
+
+  <!-- 热门推荐轮播 -->
+  <view class="section swiper-area">
+    <view class="section-title">
+      <text>热门推荐</text>
+      <text class="more-link" bindtap="onMoreBooks">查看全部 ></text>
+    </view>
+    <swiper class="swiper" autoplay indicator-dots indicator-color="rgba(255,255,255,0.3)" indicator-active-color="#fff" circular>
+      <swiper-item wx:for="{{hotBooks}}" wx:key="id" bindtap="onBookTap" data-id="{{item.id}}">
+        <view class="swiper-item" style="background: {{item.color}}">
+          <view class="swiper-content">
+            <text class="swiper-title">{{item.title}}</text>
+            <text class="swiper-sub">{{item.author}}代表作｜{{item.categoryName}}</text>
+          </view>
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <!-- 每日金句海报 -->
+  <view class="quote-poster">
+    <view class="quote-poster-header">
+      <view class="quote-poster-title">
+        <text class="quote-icon">📖</text>
+        <text>每日金句</text>
+      </view>
+      <view class="quote-refresh-btn" bindtap="onRefreshQuote">🔄 刷新</view>
+    </view>
+    <view class="quote-content-wrap" bindtap="onQuoteTap">
+      <text class="quote-content-main">{{todayQuote.content}}</text>
+      <text class="quote-author-main">—— {{todayQuote.author}}《{{todayQuote.bookName}}》</text>
+    </view>
+    <view class="quote-poster-actions">
+      <view class="quote-action-btn" bindtap="onCopyQuote">📋 复制</view>
+      <view class="quote-action-btn" bindtap="onShareQuote">📤 分享</view>
+    </view>
+  </view>
+
+  <!-- 快速入口 -->
+  <view class="section">
+    <view class="quick-entries">
+      <view class="entry-grid">
+        <view class="entry-item" bindtap="onEntryTap" data-type="books">
+          <view class="entry-icon book-entry">📚</view>
+          <text class="entry-label">书籍大全</text>
+        </view>
+        <view class="entry-item" bindtap="onEntryTap" data-type="quotes">
+          <view class="entry-icon quote-entry">💬</view>
+          <text class="entry-label">金句库</text>
+        </view>
+        <view class="entry-item" bindtap="onEntryTap" data-type="favorites">
+          <view class="entry-icon favorite-entry">❤️</view>
+          <text class="entry-label">我的收藏</text>
+        </view>
+        <view class="entry-item" bindtap="onEntryTap" data-type="history">
+          <view class="entry-icon history-entry">🕐</view>
+          <text class="entry-label">播放历史</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 书籍分类 -->
+  <view class="section categories-section">
+    <view class="section-title">书籍分类</view>
+    <scroll-view scroll-x class="category-scroll">
+      <view class="category-list">
+        <text class="category-name {{currentCategory === index ? 'active' : ''}}" 
+              wx:for="{{categories}}" 
+              wx:key="index"
+              bindtap="onCategoryTap"
+              data-index="{{index}}">{{item}}</text>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 最新讲解 -->
+  <view class="section" style="padding-top:0">
+    <view class="section-title">
+      <text>最新讲解</text>
+      <text class="more-link" bindtap="onMoreBooks">查看全部 ></text>
+    </view>
+    <scroll-view scroll-x class="book-list-h">
+      <view class="book-item-h" wx:for="{{latestBooks}}" wx:key="id" bindtap="onBookTap" data-id="{{item.id}}">
+        <view class="book-cover" style="background: {{item.color}}">
+          <text class="cover-text">{{item.title}}</text>
+        </view>
+        <text class="book-name-h">{{item.title}}</text>
+        <text class="book-duration">{{item.duration}}</text>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="footer">听书 · 让阅读更简单</view>
+</view>
+
+<!-- 搜索浮层 -->
+<search-overlay 
+  id="searchOverlay" 
+  show="{{showSearch}}" 
+  bind:close="onCloseSearch"
+/>
+
+<!-- 迷你播放器 -->
+<mini-player 
+  id="miniPlayer" 
+  bind:openplayer="onOpenPlayer"
+  show="{{showMiniPlayer}}"
+  title="{{playerState.title}}"
+  subtitle="{{playerState.subtitle}}"
+  coverColor="{{playerState.coverColor}}"
+  isPlaying="{{playerState.isPlaying}}"
+/>
+
+<!-- 全屏播放器 -->
+<full-player 
+  id="fullPlayer"
+  show="{{showFullPlayer}}"
+  bind:close="onCloseFullPlayer"
+  bind:prev="onPrev"
+  bind:next="onNext"
+  bind:statechange="onPlayerStateChange"
+/>

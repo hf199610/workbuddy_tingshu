@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "听书金句",
+  "usingComponents": {
+    "mini-player": "../../components/mini-player/mini-player",
+    "search-overlay": "../../components/search-overlay/search-overlay",
+    "full-player": "../../components/full-player/full-player"
+  }
+}

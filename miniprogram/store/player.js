@@ -114,13 +114,21 @@ class PlayerStore {
     if (this.audioContext) {
       // 如果有真实音频 URL，播放真实音频
       if (book.audioUrl && book.audioUrl.length > 0) {
-        this.audioContext.src = book.audioUrl
-        this.audioContext.title = book.title
-        this.audioContext.episodeName = book.title + ' - 精华讲解'
-        this.audioContext.singer = book.author || ''
-        this.audioContext.coverImgUrl = book.coverUrl || ''
-        this.audioContext.play()
-        console.log('播放真实音频:', book.audioUrl)
+        // 将 cloud:// 路径转换为临时URL
+        this._convertCloudURL(book.audioUrl).then(url => {
+          this.audioContext.src = url
+          this.audioContext.title = book.title
+          this.audioContext.episodeName = book.title + ' - 精华讲解'
+          this.audioContext.singer = book.author || ''
+          this.audioContext.coverImgUrl = book.coverUrl || ''
+          this.audioContext.play()
+          console.log('播放真实音频:', url)
+        }).catch(err => {
+          console.error('音频URL转换失败:', err)
+          // 降级到模拟播放
+          this.isPlaying = true
+          this.notifyListeners()
+        })
       } else {
         // 无音频 URL，保持模拟模式（不设置 src，仅更新状态）
         console.log('无音频URL，模拟播放模式')
@@ -130,6 +138,36 @@ class PlayerStore {
     } else {
       this.isPlaying = true
       this.notifyListeners()
+    }
+  }
+
+  // 将云存储路径转换为临时URL
+  async _convertCloudURL(audioUrl) {
+    // 如果不是云存储路径，直接返回
+    if (!audioUrl || !audioUrl.startsWith('cloud://')) {
+      return audioUrl
+    }
+
+    // 获取临时URL
+    const fileID = audioUrl.replace('cloud://', '')
+    try {
+      const res = await wx.cloud.getTempFileURL({
+        fileList: [fileID]
+      })
+
+      if (res.fileList && res.fileList[0]) {
+        const fileData = res.fileList[0]
+        if (fileData.status === 0) {
+          return fileData.tempFileURL
+        } else {
+          throw new Error(fileData.errMsg || '获取临时URL失败')
+        }
+      }
+      throw new Error('无文件数据')
+    } catch (err) {
+      console.error('getTempFileURL 失败:', err)
+      // 如果转换失败，返回原路径，让播放器自然报错
+      return audioUrl
     }
   }
 

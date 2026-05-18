@@ -50,6 +50,16 @@ class PlayerStore {
     audioContext.onError((err) => {
       console.error('音频播放错误:', err)
       this.isPlaying = false
+      // 给更明确的错误提示
+      let errMsg = '音频播放失败'
+      if (err && err.errMsg) {
+        if (err.errMsg.includes('403')) {
+          errMsg = '音频链接已过期，请刷新'
+        } else if (err.errMsg.includes('decode')) {
+          errMsg = '音频格式不支持'
+        }
+      }
+      wx.showToast({ title: errMsg, icon: 'none' })
       this.notifyListeners()
     })
   }

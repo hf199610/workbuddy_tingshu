@@ -46,10 +46,13 @@ Page({
 
     // 先加载书籍详情
     const bookRes = await cloudDB.getBookDetail(bookId)
+    console.log('书籍详情:', bookRes)
     
     // 再用书名查询金句
     const bookTitle = bookRes.data?.title
+    console.log('书名:', bookTitle)
     const quotesRes = bookTitle ? await cloudDB.getQuotes({ bookName: bookTitle, limit: 10 }) : { success: false, data: [] }
+    console.log('金句查询结果:', quotesRes)
 
     if (bookRes.success && bookRes.data) {
       const book = {

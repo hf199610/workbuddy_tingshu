@@ -271,10 +271,10 @@ class CloudDB {
         query = query.where({
           bookId: bookId
         })
-      } else if (book && book.title) {
+      } else if (bookName) {
         // 或者用bookName查询
         query = query.where({
-          bookName: book.title
+          bookName: bookName
         })
       }
 

@@ -338,15 +338,11 @@ Component({
     // 返回上一页
     onBack() {
       this._clearTimer()
-      // 清理音频监听
+      // 清理音频监听（保留播放状态，不暂停）
       const store = app.globalData.player._store
       if (store && store.audioContext) {
         if (this._onTimeUpdate) store.audioContext.offTimeUpdate(this._onTimeUpdate)
         if (this._onEnded) store.audioContext.offEnded(this._onEnded)
-      }
-      // 暂停播放
-      if (store) {
-        store.pause()
       }
       this.triggerEvent('back')
     },

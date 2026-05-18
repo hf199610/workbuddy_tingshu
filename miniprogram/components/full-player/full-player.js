@@ -5,7 +5,8 @@ Component({
   properties: {
     show: {
       type: Boolean,
-      value: false
+      value: false,
+      observer: 'onShowChange'
     }
   },
 
@@ -46,6 +47,13 @@ Component({
   },
 
   methods: {
+    // 监听show属性变化 - 当显示全屏播放器时重新加载数据
+    onShowChange(newVal) {
+      if (newVal) {
+        this.initFromApp()
+      }
+    },
+
     // 从全局获取播放器状态
     initFromApp() {
       const player = app.globalData.player

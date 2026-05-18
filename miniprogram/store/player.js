@@ -204,6 +204,22 @@ class PlayerStore {
     this.notifyListeners()
   }
 
+  // 从当前位置继续播放
+  resume() {
+    if (!this.currentBook) return
+
+    if (this.audioContext) {
+      if (this.audioContext.paused) {
+        this.audioContext.play()
+      }
+      this.isPlaying = true
+      this.notifyListeners()
+    } else {
+      this.isPlaying = true
+      this.notifyListeners()
+    }
+  }
+
   toggle() {
     if (this.isPlaying) {
       this.pause()

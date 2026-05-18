@@ -159,6 +159,33 @@
   max-height: none;
 }
 
+/* 讲解文稿 */
+.script-content {
+  font-size: 28rpx;
+  line-height: 1.8;
+  color: #333;
+}
+
+.script-content.collapsed {
+  max-height: 200rpx;
+  overflow: hidden;
+}
+
+.script-content.expanded {
+  max-height: none;
+}
+
+.script-footer {
+  text-align: center;
+  padding: 16rpx;
+  color: #667eea;
+  font-size: 24rpx;
+}
+
+.script-word-count {
+  color: #999;
+}
+
 .intro-actions {
   margin-top: 16rpx;
   font-size: 24rpx;

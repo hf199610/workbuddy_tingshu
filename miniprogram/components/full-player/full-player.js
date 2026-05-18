@@ -166,7 +166,13 @@ Component({
       if (hasAudio) {
         // 真实音频播放
         if (willPlay) {
-          store.play(store.currentBook)
+          // 如果之前有播放过，使用resume继续
+          const store = app.globalData.player._store
+          if (store.audioContext && store.audioContext.src) {
+            store.resume()
+          } else {
+            store.play(store.currentBook)
+          }
         } else {
           store.pause()
         }

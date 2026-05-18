@@ -209,9 +209,8 @@ class PlayerStore {
     if (!this.currentBook) return
 
     if (this.audioContext) {
-      if (this.audioContext.paused) {
-        this.audioContext.play()
-      }
+      // 直接play，无需检查paused状态
+      this.audioContext.play()
       this.isPlaying = true
       this.notifyListeners()
     } else {

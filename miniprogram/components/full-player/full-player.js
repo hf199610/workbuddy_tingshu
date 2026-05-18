@@ -173,8 +173,12 @@ Component({
           } else {
             store.play(store.currentBook)
           }
+          // 更新UI状态
+          this.setData({ isPlaying: true })
         } else {
           store.pause()
+          // 更新UI状态
+          this.setData({ isPlaying: false })
         }
       } else {
         // 模拟播放

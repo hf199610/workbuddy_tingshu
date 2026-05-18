@@ -18,6 +18,7 @@ Page({
     isFavorite: false,
     loading: true,
     showFullIntro: false,
+    showFullScript: false,  // 展开全文状态
     showFullPlayer: false,
     showMiniPlayer: false,
     playerState: {
@@ -78,7 +79,8 @@ Page({
         categoryName,
         quotes,
         isFavorite,
-        loading: false
+        loading: false,
+        showFullScript: false
       })
     } else {
       wx.showToast({ title: '书籍不存在', icon: 'none' })
@@ -188,6 +190,20 @@ Page({
   onToggleIntro() {
     this.setData({
       showFullIntro: !this.data.showFullIntro
+    })
+  },
+
+  // 展开/收起简介
+  onToggleIntro() {
+    this.setData({
+      showFullIntro: !this.data.showFullIntro
+    })
+  },
+
+  // 展开/收起脚本
+  onToggleScript() {
+    this.setData({
+      showFullScript: !this.data.showFullScript
     })
   },
 

@@ -10,7 +10,7 @@
 
   <!-- 筛选栏 -->
   <view class="filter-section">
-    <scroll-view scroll-x class="filter-scroll">
+    <scroll-view scroll-x class="filter-scroll" enable-flex>
       <view class="filter-list">
         <text class="filter-item {{categoryId === item.id ? 'active' : ''}}" 
               wx:for="{{categories}}" 

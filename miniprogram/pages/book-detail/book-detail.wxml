@@ -94,7 +94,7 @@
       </text>
     </view>
     <view class="script-content {{showFullScript ? 'expanded' : 'collapsed'}}">
-      <text class="script-text">{{scriptDisplayText}}</text>
+      <text class="script-text">{{book.script}}</text>
     </view>
     <view class="script-footer" wx:if="{{!showFullScript && book.scriptLength}}">
       <text class="script-word-count">共 {{book.scriptLength}} 字</text>

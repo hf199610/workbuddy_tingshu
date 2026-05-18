@@ -75,7 +75,7 @@
       <text>最新讲解</text>
       <text class="more-link" bindtap="onMoreBooks">查看全部 ></text>
     </view>
-    <scroll-view scroll-x class="book-list-h">
+    <scroll-view scroll-x class="book-list-h" enable-flex>
       <view class="book-item-h" wx:for="{{latestBooks}}" wx:key="id" bindtap="onBookTap" data-id="{{item.id}}">
         <view class="book-cover" style="background: {{item.color}}">
           <text class="cover-text">{{item.title}}</text>

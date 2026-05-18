@@ -44,11 +44,12 @@ Page({
   async loadBookDetail(bookId) {
     this.setData({ loading: true })
 
-    // 并行加载书籍详情和本书金句
-    const [bookRes, quotesRes] = await Promise.all([
-      cloudDB.getBookDetail(bookId),
-      cloudDB.getQuotes({ bookId, limit: 10 })
-    ])
+    // 先加载书籍详情
+    const bookRes = await cloudDB.getBookDetail(bookId)
+    
+    // 再用书名查询金句
+    const bookTitle = bookRes.data?.title
+    const quotesRes = bookTitle ? await cloudDB.getQuotes({ bookName: bookTitle, limit: 10 }) : { success: false, data: [] }
 
     if (bookRes.success && bookRes.data) {
       const book = {

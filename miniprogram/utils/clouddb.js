@@ -243,7 +243,7 @@ class CloudDB {
    * @param {number} params.skip - 跳过的数量
    */
   async getQuotes(params = {}) {
-    const { filter = 'all', bookId = null, limit = 20, skip = 0 } = params
+    const { filter = 'all', bookId = null, bookName = null, limit = 20, skip = 0 } = params
 
     // 优先使用云函数
     if (this.useCloudFunction) {
@@ -265,8 +265,17 @@ class CloudDB {
     try {
       let query = this.db.collection('quotes')
 
+      // 支持 bookId 或 bookName 查询
       if (bookId) {
-        query = query.where({ bookId })
+        // 尝试用bookId查询
+        query = query.where({
+          bookId: bookId
+        })
+      } else if (book && book.title) {
+        // 或者用bookName查询
+        query = query.where({
+          bookName: book.title
+        })
       }
 
       let res

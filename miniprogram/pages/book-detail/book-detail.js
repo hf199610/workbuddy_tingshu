@@ -53,20 +53,26 @@ Page({
     if (bookRes.success && bookRes.data) {
       const book = {
         ...bookRes.data,
-        id: bookRes.data._id || bookRes.data.id
+        id: bookRes.data._id || bookRes.data.id,
+        // 兼容字段名
+        intro: bookRes.data.intro || bookRes.data.description || '',
+        quotes: bookRes.data.quotes || []
       }
 
       // 获取分类名称
       const categoryName = CATEGORIES[book.category] || '未分类'
 
-      // 处理金句数据
-      let quotes = []
-      if (quotesRes.success && quotesRes.data.length > 0) {
+      // 处理金句数据 - 优先使用books中的quotes字段，其次才是云数据库查询
+      let quotes = book.quotes || []
+      if (quotes.length === 0 && quotesRes.success && quotesRes.data.length > 0) {
         quotes = quotesRes.data.map(q => ({
           ...q,
           id: q._id || q.id
         }))
-      } else {
+      }
+      
+      // 如果还是没有，使用默认金句（作为后备）
+      if (quotes.length === 0) {
         quotes = defaultQuotes
       }
 
@@ -170,6 +176,15 @@ Page({
   onPlayTap() {
     const book = this.data.book
     if (!book) return
+
+    // 检查是否有音频
+    if (!book.audioUrl || book.audioUrl.length === 0) {
+      wx.showToast({
+        title: '音频生成中，敬请期待',
+        icon: 'none'
+      })
+      return
+    }
 
     // 显示播放提示
     wx.showToast({

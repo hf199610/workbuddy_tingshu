@@ -160,27 +160,30 @@ Component({
       const store = app.globalData.player._store
       const hasAudio = this.data.hasAudio
 
+      // 计算点击后的播放状态
+      let willPlay = !this.data.isPlaying
+
       if (hasAudio) {
         // 真实音频播放
-        if (this.data.isPlaying) {
-          store.pause()
-        } else {
+        if (willPlay) {
           store.play(store.currentBook)
+        } else {
+          store.pause()
         }
       } else {
         // 模拟播放
-        const isPlaying = !this.data.isPlaying
-        this.setData({ isPlaying })
-        app.globalData.player.isPlaying = isPlaying
+        this.setData({ isPlaying: willPlay })
+        app.globalData.player.isPlaying = willPlay
 
-        if (isPlaying) {
+        if (willPlay) {
           this._startTimer()
         } else {
           this._clearTimer()
         }
       }
 
-      this.triggerEvent('statechange', { isPlaying: this.data.isPlaying })
+      // 发送正确的事件状态
+      this.triggerEvent('statechange', { isPlaying: willPlay })
     },
 
     // 开始计时器（模拟播放进度 - 无真实音频时使用）

@@ -68,7 +68,25 @@ class PlayerStore {
   _updateSubtitleIndex(currentTime) {
     if (!this.subtitles || this.subtitles.length === 0) return
 
-    // 二分查找：找到 currentTime 所在的字幕区间
+    // 检查字幕是否有真实时间戳（非0）
+    const hasRealTimestamps = this.subtitles.some(s => s.start > 0 || s.end > 0)
+
+    if (!hasRealTimestamps) {
+      // 无真实时间戳：按进度比例分配字幕
+      const totalDuration = this.audioContext ? this.audioContext.duration : this._estimateDuration()
+      if (totalDuration <= 0) return
+
+      const progress = currentTime / totalDuration
+      const subtitleIndex = Math.floor(progress * this.subtitles.length)
+      const found = Math.min(subtitleIndex, this.subtitles.length - 1)
+
+      if (found !== this.currentSubtitleIndex) {
+        this.currentSubtitleIndex = found
+      }
+      return
+    }
+
+    // 有真实时间戳：使用二分查找
     let left = 0
     let right = this.subtitles.length - 1
     let found = -1
@@ -98,6 +116,13 @@ class PlayerStore {
     if (found !== this.currentSubtitleIndex) {
       this.currentSubtitleIndex = found
     }
+  }
+
+  // 估算音频时长（当无法获取时使用）
+  _estimateDuration() {
+    // 假设平均语速：中文约 300字/分钟，即 5字/秒
+    const textLength = this.currentBook ? this.currentBook.scriptLength || 0 : 0
+    return textLength / 5
   }
 
   play(book) {

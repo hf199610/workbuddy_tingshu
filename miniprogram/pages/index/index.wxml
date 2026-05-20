@@ -69,23 +69,7 @@
     </view>
   </view>
 
-  <!-- 最新讲解 -->
-  <view class="section" style="padding-top:0">
-    <view class="section-title">
-      <text>最新讲解</text>
-      <text class="more-link" bindtap="onMoreBooks">查看全部 ></text>
-    </view>
-    <scroll-view scroll-x class="book-list-h" enable-flex>
-      <view class="book-item-h" wx:for="{{latestBooks}}" wx:key="id" bindtap="onBookTap" data-id="{{item.id}}">
-        <view class="book-cover" style="background: {{item.color}}">
-          <text class="cover-text">{{item.title}}</text>
-        </view>
-        <text class="book-name-h">{{item.title}}</text>
-        <text class="book-duration">{{item.duration}}</text>
-      </view>
-    </scroll-view>
-  </view>
-
+  
   <view class="footer">听书 · 让阅读更简单</view>
 </view>
 

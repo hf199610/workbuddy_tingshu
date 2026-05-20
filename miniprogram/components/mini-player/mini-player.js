@@ -81,7 +81,13 @@ Component({
       
       if (isPlaying) {
         app.globalData.player.isPlaying = true
-        app.globalData.player._store?.play(app.globalData.player.currentBook)
+        // 优先使用resume继续播放，失败则使用play
+        const store = app.globalData.player._store
+        if (store && store.audioContext && store.audioContext.src) {
+          store.resume()
+        } else {
+          store?.play(app.globalData.player.currentBook)
+        }
       } else {
         app.globalData.player.isPlaying = false
         app.globalData.player._store?.pause()

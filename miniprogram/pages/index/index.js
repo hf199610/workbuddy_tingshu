@@ -12,7 +12,6 @@ const defaultQuotes = [
 Page({
   data: {
     hotBooks: [],
-    latestBooks: [],
     todayQuote: {},
     showSearch: false,
     showFullPlayer: false,
@@ -32,6 +31,18 @@ Page({
 
   onShow() {
     this.updatePlayerState()
+    
+    // 检查音频状态同步（处理息屏后恢复）
+    const player = getApp().globalData.player
+    const store = player._store
+    if (store && store.audioContext && store.audioContext.src) {
+      const actualPlaying = store.audioContext.paused === false
+      if (actualPlaying !== store.isPlaying) {
+        store.isPlaying = actualPlaying
+        player.isPlaying = actualPlaying
+        this.updatePlayerState()
+      }
+    }
   },
 
   async loadData() {
@@ -52,14 +63,6 @@ Page({
       id: book._id || book.id
     }))
 
-    // 处理最新书籍
-    let latestBooks = latestRes.success ? latestRes.data : []
-    latestBooks = latestBooks.slice(0, 6).map(book => ({
-      ...book,
-      categoryName: CATEGORIES[book.category] || '其他',
-      id: book._id || book.id
-    }))
-
     // 处理每日金句
     const todayQuote = quoteRes.success && quoteRes.data
       ? quoteRes.data
@@ -67,7 +70,6 @@ Page({
 
     this.setData({
       hotBooks,
-      latestBooks,
       todayQuote,
       loading: false
     })
@@ -215,20 +217,11 @@ Page({
 
   // 上一曲
   onPrev() {
-    wx.showToast({ title: '已是第一首', icon: 'none' })
+    wx.showToast({ title: '暂无上一首', icon: 'none' })
   },
 
   // 下一曲
   onNext() {
-    const player = getApp().globalData.player
-    const currentBook = player.currentBook
-    if (!currentBook) return
-
-    const currentIndex = this.data.latestBooks.findIndex(b => b.id === currentBook.id)
-    const nextBook = this.data.latestBooks[(currentIndex + 1) % this.data.latestBooks.length]
-
-    if (nextBook) {
-      this.playBook(nextBook)
-    }
+    wx.showToast({ title: '暂无下一首', icon: 'none' })
   }
 })

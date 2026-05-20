@@ -214,8 +214,14 @@ class PlayerStore {
     if (!this.currentBook) return
 
     if (this.audioContext) {
-      // 直接play，无需检查paused状态
-      this.audioContext.play()
+      // 检查是否有音频源设置
+      if (this.audioContext.src) {
+        // 直接调用 play 恢复播放
+        this.audioContext.play()
+      } else {
+        // 没有音频源，需要重新创建播放
+        this.play(this.currentBook)
+      }
       this.isPlaying = true
       this.notifyListeners()
     } else {

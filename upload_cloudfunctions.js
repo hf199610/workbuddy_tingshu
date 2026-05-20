@@ -3,8 +3,10 @@
  * 使用方法:
  *   node upload_cloudfunctions.js
  *
- * 需要先全局安装 tcb-cli:
- *   npm install -g @cloudbase/cli
+ * 需要先确保已登录腾讯云:
+ *   1. 运行 tcb login 进行交互式登录
+ *   2. 或者使用 SecretID/SecretKey: tcb login --apiKeyId xxx --apiKey yyy
+ *   3. 或者在微信开发者工具中手动上传
  */
 
 const { execSync } = require('child_process')
@@ -28,6 +30,26 @@ const FUNCTIONS = [
 const ENV_ID = 'cloud1-d2ggs9k1bf3aa2a18'
 
 console.log('=== 云函数上传脚本 ===\n')
+console.log('环境ID:', ENV_ID)
+console.log('')
+
+// 检查登录状态
+try {
+  execSync('npx tcb user', { stdio: 'pipe', encoding: 'utf-8' })
+} catch (e) {
+  console.log('⚠️  未检测到登录状态，请先登录:')
+  console.log('')
+  console.log('  方法1（推荐）: 运行以下命令扫码登录')
+  console.log('    npx tcb login')
+  console.log('')
+  console.log('  方法2: 在微信开发者工具中手动上传:')
+  console.log('    1. 打开微信开发者工具')
+  console.log('    2. 展开 cloudfunctions/ 目录')
+  console.log('    3. 右键点击云函数文件夹')
+  console.log('    4. 选择 "上传并部署：云端安装依赖"')
+  console.log('')
+  process.exit(1)
+}
 
 // 检查云函数目录
 if (!fs.existsSync(CLOUD_FUNCTIONS_DIR)) {

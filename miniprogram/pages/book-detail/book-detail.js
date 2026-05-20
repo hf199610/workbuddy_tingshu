@@ -39,6 +39,20 @@ Page({
     // 刷新收藏状态和播放器状态
     this.loadFavoriteStatus()
     this.updatePlayerState()
+    
+    // 检查音频状态同步（处理息屏后恢复）
+    const player = getApp().globalData.player
+    const store = player._store
+    if (store && store.audioContext && store.audioContext.src) {
+      // 检查实际的播放状态
+      const actualPlaying = store.audioContext.paused === false
+      if (actualPlaying !== store.isPlaying) {
+        // 状态不同步，更新UI
+        store.isPlaying = actualPlaying
+        player.isPlaying = actualPlaying
+        this.updatePlayerState()
+      }
+    }
   },
 
   async loadBookDetail(bookId) {

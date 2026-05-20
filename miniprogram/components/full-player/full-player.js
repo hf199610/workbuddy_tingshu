@@ -43,6 +43,17 @@ Component({
   pageLifetimes: {
     show() {
       this.initFromApp()
+      // 息屏后恢复：检查音频状态并同步
+      const player = app.globalData.player
+      const store = player._store
+      if (store && store.audioContext) {
+        // 检查音频实际播放状态
+        const actualPlaying = store.audioContext.paused === false
+        if (actualPlaying !== store.isPlaying) {
+          // 状态不同步，同步UI
+          this.setData({ isPlaying: actualPlaying })
+        }
+      }
     }
   },
 
@@ -167,10 +178,14 @@ Component({
       if (hasAudio) {
         // 真实音频播放
         if (willPlay) {
-          // 如果之前有播放过，使用resume继续
-          const store = app.globalData.player._store
-          if (store.audioContext && store.audioContext.src) {
-            store.resume()
+          // 检查 BackgroundAudioManager 是否可用
+          if (store.audioContext) {
+            // 尝试使用 resume，如果不行则重新播放
+            if (store.audioContext.src && !store.audioContext.paused) {
+              // 已经在播放，不需要操作
+            } else {
+              store.resume()
+            }
           } else {
             store.play(store.currentBook)
           }

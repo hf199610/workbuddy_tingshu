@@ -32,5 +32,6 @@
   "appid": "wx7d7b7eb183460559",
   "miniprogramRoot": "miniprogram/",
   "editorSetting": {},
-  "libVersion": "3.16.0"
+  "libVersion": "3.16.0",
+  "cloudfunctionRoot": "miniprogram/cloudfunctions/"
 }

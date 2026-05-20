@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "金句库",
   "usingComponents": {
-    "mini-player": "../../components/mini-player/mini-player"
+    "mini-player": "../../components/mini-player/mini-player",
+    "search-overlay": "../../components/search-overlay/search-overlay"
   }
 }

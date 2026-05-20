@@ -45,6 +45,7 @@
     ]
   },
   "style": "v2",
+  "requiredBackgroundModes": ["audio"],
   "sitemapLocation": "sitemap.json",
   "lazyCodeLoading": "requiredComponents",
   "cloud": true

@@ -232,17 +232,17 @@
 .history-item {
   display: flex;
   align-items: center;
-  padding: 24rpx;
+  padding: 20rpx 24rpx;
   background: #fff;
-  border-radius: 24rpx;
-  margin-bottom: 16rpx;
-  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.04);
+  border-radius: 20rpx;
+  margin-bottom: 12rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.04);
 }
 
 .history-cover {
-  width: 96rpx;
-  height: 96rpx;
-  border-radius: 16rpx;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 14rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -251,7 +251,7 @@
 
 .history-info {
   flex: 1;
-  margin-left: 20rpx;
+  margin-left: 16rpx;
   overflow: hidden;
 }
 
@@ -273,28 +273,31 @@
 }
 
 .history-progress {
-  width: 100rpx;
-  margin-left: 16rpx;
-  text-align: center;
+  width: 120rpx;
+  margin-left: 12rpx;
+  text-align: right;
+  flex-shrink: 0;
 }
 
 .progress-bar {
-  height: 8rpx;
+  height: 6rpx;
   background: #f0f0f0;
-  border-radius: 4rpx;
+  border-radius: 3rpx;
   overflow: hidden;
-  margin-bottom: 8rpx;
+  margin-bottom: 6rpx;
 }
 
 .progress-fill {
   height: 100%;
   background: #ff6b6b;
-  border-radius: 4rpx;
+  border-radius: 3rpx;
+  transition: width 0.3s ease;
 }
 
 .progress-text {
-  font-size: 20rpx;
-  color: #999;
+  font-size: 22rpx;
+  color: #ff6b6b;
+  font-weight: 500;
 }
 
 /* 菜单卡片 */

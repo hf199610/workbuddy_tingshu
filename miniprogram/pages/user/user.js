@@ -36,7 +36,29 @@ Page({
     // 从本地存储获取收藏ID
     const favoriteBookIds = wx.getStorageSync('favoriteBooks') || []
     const favoriteQuoteIds = wx.getStorageSync('favoriteQuotes') || []
-    const histories = wx.getStorageSync('playHistory') || []
+    let histories = wx.getStorageSync('playHistory') || []
+
+    // 处理历史记录：计算播放百分比
+    histories = histories.map(h => {
+      let percent = h.progressPercent || 0
+      // 兼容旧数据：如果存储的是秒数，计算百分比
+      if (!percent && h.currentTime && h.duration) {
+        percent = Math.round((h.currentTime / h.duration) * 100)
+      } else if (!percent && typeof h.progress === 'number' && h.progress > 0 && h.progress <= 1) {
+        // progress 可能是小数比例（0-1）
+        percent = Math.round(h.progress * 100)
+      } else if (!percent && typeof h.progress === 'number' && h.progress > 1) {
+        // progress 可能是秒数，尝试计算
+        const duration = h.audioDuration || h.duration || 0
+        if (duration > 0) {
+          percent = Math.round((h.progress / duration) * 100)
+        }
+      }
+      return {
+        ...h,
+        progress: Math.min(percent, 100) // 确保不超过100%
+      }
+    })
 
     // 并行加载收藏的书籍和金句
     const [bookRes, quoteRes] = await Promise.all([

@@ -64,6 +64,15 @@ App({
       if (data.progress !== undefined) {
         this.globalData.player.currentTime = data.progress
       }
+      // 更新历史记录进度（每5秒更新一次，避免频繁写入）
+      if (data.progress !== undefined && data.duration > 0) {
+        const now = Date.now()
+        if (!this._lastHistoryUpdate || now - this._lastHistoryUpdate > 5000) {
+          this._lastHistoryUpdate = now
+          const percent = Math.round((data.progress / data.duration) * 100)
+          this.updateHistoryProgress(data.progress, data.duration, percent)
+        }
+      }
     })
   },
   
@@ -128,18 +137,22 @@ App({
     wx.setStorageSync('playHistory', history)
   },
   
-  // 更新播放进度
+  // 更新播放进度（供页面调用）
   updateProgress(progress, currentTime) {
     this.globalData.player.progress = progress
     this.globalData.player.currentTime = currentTime
-    
-    // 更新历史记录中的进度
+  },
+
+  // 更新历史记录进度（内部使用）
+  updateHistoryProgress(currentTime, duration, percent) {
     const history = wx.getStorageSync('playHistory') || []
     const book = this.globalData.player.currentBook
     if (book) {
       const index = history.findIndex(h => h.id === book.id)
       if (index !== -1) {
-        history[index].progress = progress
+        history[index].currentTime = currentTime
+        history[index].duration = duration
+        history[index].progressPercent = percent
         history[index].lastPlayTime = Date.now()
         wx.setStorageSync('playHistory', history)
       }

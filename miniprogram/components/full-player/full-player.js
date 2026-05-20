@@ -95,13 +95,13 @@ Component({
     _setupAudioListeners(audioCtx) {
       // 移除旧监听
       if (this._onTimeUpdate) {
-        audioCtx.offTimeUpdate(this._onTimeUpdate)
+        audioCtx.removeEventListener('timeupdate', this._onTimeUpdate)
       }
       if (this._onEnded) {
-        audioCtx.offEnded(this._onEnded)
+        audioCtx.removeEventListener('ended', this._onEnded)
       }
 
-      // 注册新监听
+      // 注册新监听 - BackgroundAudioManager 使用 onTimeUpdate/onEnded 方法
       this._onTimeUpdate = () => {
         const currentTime = audioCtx.currentTime || 0
         const duration = audioCtx.duration || 0
@@ -130,6 +130,7 @@ Component({
         this.triggerEvent('ended')
       }
 
+      // BackgroundAudioManager 使用 onTimeUpdate/onEnded 方法注册
       audioCtx.onTimeUpdate(this._onTimeUpdate)
       audioCtx.onEnded(this._onEnded)
     },

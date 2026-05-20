@@ -58,19 +58,39 @@ def clean_text_for_tts(text: str) -> str:
     return cleaned
 
 
-def merge_words_to_sentences(words: List[Dict]) -> List[Dict]:
+def merge_words_to_sentences(words_or_cues) -> List[Dict]:
     """
     将 word-level 时间戳合并为句子级字幕。
     edge-tts 的 SubMaker 生成 word 级别的时间戳，这里按标点符号合并。
 
-    Args:
-        words: SubMaker 生成的 word 列表，每个元素包含 { "text": str, "offset": int, "duration": int }
+    支持两种格式:
+    - 旧版: words列表 [{ "text": str, "offset": int, "duration": int }]
+    - 新版: cues列表 [Subtitle对象]
 
     Returns:
         句子级字幕列表，每个元素包含 { "index": int, "start": float, "end": float, "text": str }
     """
-    if not words:
+    if not words_or_cues:
         return []
+
+    # 检查是否是新版cue对象
+    if hasattr(words_or_cues[0], 'content'):
+        # 新版:SubTitle对象
+        cues = words_or_cues
+        result = []
+        for i, cue in enumerate(cues):
+            # timedelta转毫秒
+            start_ms = int(cue.start.total_seconds() * 1000)
+            end_ms = int(cue.end.total_seconds() * 1000)
+            result.append({
+                "index": i,
+                "start": start_ms,
+                "end": end_ms,
+                "text": cue.content
+            })
+        return result
+
+    # 旧版: words列表
 
     sentences = []
     current_words = []
@@ -281,11 +301,8 @@ class EdgeTTSGenerator:
         async for chunk in communicate.stream():
             if chunk["type"] == "audio":
                 audio_data.extend(chunk["data"])
-            elif chunk["type"] == "WordBoundary":
-                submaker.create_sub(
-                    (chunk["offset"], chunk["duration"]),
-                    chunk["text"]
-                )
+            elif chunk["type"] == "SentenceBoundary":
+                submaker.feed(chunk)
 
         # 写入 MP3 文件
         with open(output_mp3, "wb") as f:
@@ -295,11 +312,11 @@ class EdgeTTSGenerator:
         logger.info(f"✅ 音频已保存: {output_mp3} ({mp3_size / 1024:.1f} KB)")
 
         # 合并为句子级字幕
-        subtitles = merge_words_to_sentences(submaker.subs)
+        subtitles = merge_words_to_sentences(submaker.cues)
         logger.info(f"✅ 字幕生成完成: {len(subtitles)} 句")
 
-        # 估算音频时长（从最后一个字幕的 end 时间）
-        duration_seconds = subtitles[-1]["end"] if subtitles else 0.0
+        # 估算音频时长（从最后一个字幕的 end 时间，毫秒转秒）
+        duration_seconds = subtitles[-1]["end"] / 1000 if subtitles else 0.0
 
         # 写入 VTT 文件
         vtt_path = None

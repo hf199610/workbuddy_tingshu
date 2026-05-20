@@ -21,6 +21,14 @@ App({
   },
   
   onLaunch() {
+    // 初始化云开发
+    if (wx.cloud) {
+      wx.cloud.init({
+        env: this.globalData.cloudEnv || wx.cloud.DYNAMIC_CURRENT_ENV,
+        traceUser: true
+      })
+    }
+    
     // 检查登录状态
     this.checkLoginStatus()
     
@@ -36,13 +44,12 @@ App({
   },
   
   initPlayer() {
-    // 创建内部音频上下文
-    const innerAudioContext = wx.createInnerAudioContext()
-    innerAudioContext.obeyMuteSwitch = false
+    // 使用 BackgroundAudioManager（后台音频管理器），支持黑屏后继续播放
+    const backgroundAudioManager = wx.getBackgroundAudioManager()
     
     // 初始化 PlayerStore
     const playerStore = new PlayerStore()
-    playerStore.init(innerAudioContext)
+    playerStore.init(backgroundAudioManager)
     
     // 将 store 存入 globalData
     this.globalData.player._store = playerStore

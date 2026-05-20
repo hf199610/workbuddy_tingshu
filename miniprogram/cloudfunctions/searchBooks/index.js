@@ -19,14 +19,22 @@ exports.main = async (event, context) => {
   }
 
   try {
-    // 使用正则表达式进行模糊搜索
+    // 使用正则表达式进行模糊搜索（搜索标题和作者）
     const res = await db.collection('books')
-      .where({
-        title: db.RegExp({
-          regexp: keyword,
-          options: 'i' // 不区分大小写
-        })
-      })
+      .where(db.command.or([
+        {
+          title: db.RegExp({
+            regexp: keyword,
+            options: 'i' // 不区分大小写
+          })
+        },
+        {
+          author: db.RegExp({
+            regexp: keyword,
+            options: 'i'
+          })
+        }
+      ]))
       .get()
 
     return {

@@ -1,4 +1,4 @@
-// store/player.js - 播放器状态管理（支持真实音频 + 字幕同步）
+// store/player.js - 播放器状态管理（支持后台音频 + 字幕同步）
 class PlayerStore {
   constructor() {
     this.isPlaying = false
@@ -15,6 +15,7 @@ class PlayerStore {
   init(audioContext) {
     this.audioContext = audioContext
 
+    // BackgroundAudioManager 使用回调方式注册事件（不是箭头函数包装）
     audioContext.onPlay(() => {
       this.isPlaying = true
       this.notifyListeners()
@@ -33,16 +34,19 @@ class PlayerStore {
     audioContext.onEnded(() => {
       this.isPlaying = false
       this.progress = 0
+      this.duration = 0
       this.currentSubtitleIndex = -1
       this.notifyListeners()
     })
 
     audioContext.onTimeUpdate(() => {
-      this.progress = Math.floor(audioContext.currentTime)
+      this.progress = Math.floor(audioContext.currentTime || 0)
       this.duration = Math.floor(audioContext.duration || 0)
 
       // 字幕同步：根据当前播放时间找到对应字幕
-      this._updateSubtitleIndex(audioContext.currentTime)
+      if (audioContext.currentTime) {
+        this._updateSubtitleIndex(audioContext.currentTime)
+      }
 
       this.notifyListeners()
     })
@@ -141,11 +145,12 @@ class PlayerStore {
       if (book.audioUrl && book.audioUrl.length > 0) {
         // 将 cloud:// 路径转换为临时URL
         this._convertCloudURL(book.audioUrl).then(url => {
-          this.audioContext.src = url
+          // BackgroundAudioManager 必须设置 title
           this.audioContext.title = book.title
           this.audioContext.episodeName = book.title + ' - 精华讲解'
-          this.audioContext.singer = book.author || ''
+          this.audioContext.singer = book.author || '听书小程序'
           this.audioContext.coverImgUrl = book.coverUrl || ''
+          this.audioContext.src = url
           this.audioContext.play()
           console.log('播放真实音频:', url)
         }).catch(err => {

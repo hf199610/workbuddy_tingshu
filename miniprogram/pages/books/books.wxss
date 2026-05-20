@@ -84,23 +84,23 @@
 
 /* 书籍网格 */
 .book-grid {
-  padding:0 32rpx 32rpx;
+  padding:0 24rpx 24rpx;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap:24rpx;
+  grid-template-columns: repeat(3, 1fr);
+  gap:16rpx;
 }
 
 .book-card {
   background: #fff;
-  border-radius:24rpx;
+  border-radius:16rpx;
   overflow: hidden;
-  box-shadow:0 4rpx 16rpx rgba(0,0,0,0.05);
+  box-shadow:0 2rpx 8rpx rgba(0,0,0,0.05);
 }
 
 .book-cover-wrap {
   position: relative;
   width:100%;
-  padding-top:130%;
+  padding-top:100%;
 }
 
 .book-cover-grid {
@@ -116,29 +116,31 @@
 
 .cover-title {
   color: #fff;
-  font-size:36rpx;
+  font-size:24rpx;
   font-weight: bold;
-  text-shadow:0 4rpx 16rpx rgba(0,0,0,0.3);
+  text-align: center;
+  padding: 8rpx;
+  text-shadow:0 2rpx 8rpx rgba(0,0,0,0.3);
 }
 
 .book-badge {
   position: absolute;
-  bottom:12rpx;
-  right:12rpx;
+  bottom:8rpx;
+  right:8rpx;
   background: rgba(0,0,0,0.7);
   color: white;
-  font-size:20rpx;
-  padding:4rpx 16rpx;
-  border-radius:12rpx;
+  font-size:18rpx;
+  padding:2rpx 10rpx;
+  border-radius:8rpx;
 }
 
 /* 书籍信息 */
 .book-info {
-  padding:20rpx 24rpx 24rpx;
+  padding:12rpx 12rpx 16rpx;
 }
 
 .book-title-card {
-  font-size:28rpx;
+  font-size:24rpx;
   font-weight:600;
   color: #333;
   overflow: hidden;
@@ -148,24 +150,24 @@
 }
 
 .book-author-card {
-  font-size:24rpx;
+  font-size:22rpx;
   color: #999;
-  margin-top:8rpx;
+  margin-top:4rpx;
   display: block;
 }
 
 .book-tags {
   display: flex;
-  gap:8rpx;
-  margin-top:12rpx;
+  gap:6rpx;
+  margin-top:8rpx;
 }
 
 .tag {
   background: #f5f5f5;
   color: #666;
-  font-size:20rpx;
-  padding:4rpx 16rpx;
-  border-radius:8rpx;
+  font-size:18rpx;
+  padding:2rpx 10rpx;
+  border-radius:6rpx;
 }
 
 .tag.featured {

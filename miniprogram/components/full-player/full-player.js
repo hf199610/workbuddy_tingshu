@@ -345,8 +345,8 @@ Component({
       // 清理音频监听
       const store = app.globalData.player._store
       if (store && store.audioContext) {
-        if (this._onTimeUpdate) store.audioContext.offTimeUpdate(this._onTimeUpdate)
-        if (this._onEnded) store.audioContext.offEnded(this._onEnded)
+        if (typeof this._onTimeUpdate === 'function') store.audioContext.offTimeUpdate(this._onTimeUpdate)
+        if (typeof this._onEnded === 'function') store.audioContext.offEnded(this._onEnded)
       }
       this.triggerEvent('close')
     },
@@ -357,8 +357,8 @@ Component({
       // 清理音频监听（保留播放状态，不暂停）
       const store = app.globalData.player._store
       if (store && store.audioContext) {
-        if (this._onTimeUpdate) store.audioContext.offTimeUpdate(this._onTimeUpdate)
-        if (this._onEnded) store.audioContext.offEnded(this._onEnded)
+        if (typeof this._onTimeUpdate === 'function') store.audioContext.offTimeUpdate(this._onTimeUpdate)
+        if (typeof this._onEnded === 'function') store.audioContext.offEnded(this._onEnded)
       }
       this.triggerEvent('back')
     },

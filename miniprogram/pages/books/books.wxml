@@ -36,7 +36,8 @@
           bindtap="onBookTap"
           data-id="{{item.id}}">
       <view class="book-cover-wrap">
-        <view class="book-cover-grid" style="background: {{item.color}}">
+        <image wx:if="{{item.coverUrl}}" class="book-cover-image" src="{{item.coverUrl}}" mode="aspectFill"></image>
+        <view wx:else class="book-cover-grid" style="background: {{item.color}}">
           <text class="cover-title">{{item.title}}</text>
         </view>
         <view class="book-badge">{{item.duration}}</view>

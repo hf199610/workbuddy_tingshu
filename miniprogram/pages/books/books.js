@@ -80,7 +80,11 @@ Page({
     if (res.success && res.data.length > 0) {
       books = res.data.map(book => ({
         ...book,
-        id: book._id || book.id
+        id: book._id || book.id,
+        // 统一字段名：coverColor -> color
+        color: book.coverColor || book.color || '#667eea',
+        // 封面图片URL
+        coverUrl: book.coverUrl || ''
       }))
     }
 

@@ -68,7 +68,25 @@ class CloudDB {
       let query = this.db.collection('books')
 
       if (categoryId > 0) {
-        query = query.where({ category: categoryId })
+        // 数字ID映射到分类名称（与constants.js保持一致）
+        const CATEGORY_MAP = {
+          0: '',  // 全部
+          1: '经典名著',
+          2: '儿童文学',
+          3: '文学小说',
+          4: '诗词歌赋',
+          5: '哲学心理',
+          6: '科普百科',
+          7: '历史传记',
+          8: '科幻悬疑',
+          9: '成长励志',
+          10: '散文随笔',
+          11: '家庭教育',
+        }
+        const categoryName = CATEGORY_MAP[categoryId]
+        if (categoryName) {
+          query = query.where({ category: categoryName })
+        }
       }
 
       const res = await query

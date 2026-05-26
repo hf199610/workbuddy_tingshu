@@ -1,0 +1,132 @@
+<!--pages/book-detail/book-detail.wxml - 书籍详情页-->
+<view class="page-detail" wx:if="{{book}}">
+  <!-- 头部区域 -->
+  <view class="detail-header">
+    <view class="back-btn" bindtap="onBack">‹</view>
+    <view class="menu-btn" bindtap="onMenuTap">⋯</view>
+    
+    <!-- 书籍封面 -->
+    <view class="book-cover-wrapper">
+      <view class="book-cover" style="background-color: {{book.color}}">
+        <text class="cover-title">{{book.title}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 书籍信息 -->
+  <view class="detail-info">
+    <text class="book-title">{{book.title}}</text>
+    <text class="book-author">{{book.author}}</text>
+    <view class="book-meta">
+      <text class="meta-tag">{{categoryName}}</text>
+      <text class="meta-tag">{{book.duration}}</text>
+      <text class="meta-tag">金句 {{quotes.length || 5}}条</text>
+    </view>
+    
+    <view class="action-buttons">
+      <view class="btn-favorite {{isFavorite ? 'active' : ''}}" bindtap="onFavoriteTap">
+        <text>{{isFavorite ? '❤️' : '🤍'}}</text>
+        <text>{{isFavorite ? '已收藏' : '收藏'}}</text>
+      </view>
+      <view class="btn-play" bindtap="onPlayTap">
+        <text>▶</text>
+        <text>开始收听</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 内容简介 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">内容简介</text>
+      <text class="section-toggle" bindtap="onToggleIntro">
+        {{showFullIntro ? '收起' : '全文'}}
+      </text>
+    </view>
+    <view class="intro-content {{showFullIntro ? 'expanded' : 'collapsed'}}">
+      <text>{{book.intro}}</text>
+    </view>
+    <view class="intro-actions" wx:if="{{book.intro && book.intro.length > 60}}">
+      <text bindtap="onReadAloud">📢 朗读简介</text>
+    </view>
+  </view>
+
+  <!-- 本书金句 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">本书金句</text>
+      <text class="section-toggle" wx:if="{{quotes.length > 3}}" bindtap="onShowMoreQuotes">
+        查看全部
+      </text>
+    </view>
+    <view class="quote-list">
+      <view class="quote-item" wx:for="{{quotes}}" wx:key="id">
+        <text class="quote-text">"{{item.content}}"</text>
+        <view class="quote-meta">
+          <text class="quote-author">{{item.author}}</text>
+          <text class="quote-book">《{{item.bookName}}》</text>
+        </view>
+        <view class="quote-actions">
+          <text bindtap="onQuoteLike" data-id="{{item.id}}">👍 {{item.likeCount || 0}}</text>
+          <text bindtap="onQuoteCopy" data-content="{{item.content}}">📋 复制</text>
+          <text bindtap="onQuoteShare" data-id="{{item.id}}">📤 分享</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 音频卡片 -->
+  <view class="audio-card" bindtap="onPlayTap">
+    <view class="audio-icon">🎧</view>
+    <view class="audio-info">
+      <text class="audio-title">{{book.title}} - 精华讲解</text>
+      <text class="audio-duration">时长 {{book.audioDurationText || book.duration || '未知'}}</text>
+    </view>
+    <view class="audio-play-btn">▶</view>
+  </view>
+
+  <!-- 讲解文稿 -->
+  <view class="section" wx:if="{{book.script}}">
+    <view class="section-header">
+      <text class="section-title">讲解文稿</text>
+      <text class="section-toggle" bindtap="onToggleScript">
+        {{showFullScript ? '收起' : '展开全文'}}
+      </text>
+    </view>
+    <view class="script-content {{showFullScript ? 'expanded' : 'collapsed'}}">
+      <text class="script-text">{{scriptDisplayText}}</text>
+    </view>
+    <view class="script-footer" wx:if="{{!showFullScript && book.scriptLength}}">
+      <text class="script-word-count">共 {{book.scriptLength}} 字</text>
+    </view>
+  </view>
+
+  <!-- 底部留白给迷你播放器 -->
+  <view class="bottom-spacer" wx:if="{{showMiniPlayer}}"></view>
+</view>
+
+<!-- 空状态 -->
+<view class="empty-state" wx:if="{{!book}}">
+  <text class="empty-icon">📚</text>
+  <text class="empty-text">加载中...</text>
+</view>
+
+<!-- 迷你播放器 -->
+<mini-player 
+  id="miniPlayer" 
+  bind:openplayer="onOpenPlayer"
+  show="{{showMiniPlayer}}"
+  title="{{playerState.title}}"
+  subtitle="{{playerState.subtitle}}"
+  coverColor="{{playerState.coverColor}}"
+  isPlaying="{{playerState.isPlaying}}"
+/>
+
+<!-- 全屏播放器 -->
+<full-player 
+  id="fullPlayer"
+  show="{{showFullPlayer}}"
+  bind:close="onCloseFullPlayer"
+  bind:back="onBackFromPlayer"
+  bind:statechange="onPlayerStateChange"
+/>

@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "书籍详情",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "mini-player": "../../components/mini-player/mini-player",
+    "full-player": "../../components/full-player/full-player"
+  }
+}

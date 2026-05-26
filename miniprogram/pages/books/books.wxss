@@ -1,0 +1,188 @@
+/* pages/books/books.wxss - 书籍列表样式（匹配原型） */
+
+.page-container {
+  background: #f5f5f5;
+  min-height: 100vh;
+  padding-bottom: 120rpx;
+}
+
+/* 搜索栏 */
+.search-header {
+  background: #fff;
+  padding: 16rpx 32rpx;
+  border-bottom:1rpx solid #f0f0f0;
+}
+
+.search-bar {
+  background: #f5f5f5;
+  border-radius: 40rpx;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  padding:0 32rpx;
+}
+
+.search-icon {
+  color: #999;
+  font-size:28rpx;
+  margin-right:16rpx;
+}
+
+.search-text {
+  color: #999;
+  font-size:26rpx;
+}
+
+/* 筛选栏 */
+.filter-section {
+  margin:20rpx 32rpx;
+}
+
+.filter-scroll {
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.filter-list {
+  display: inline-flex;
+  gap:16rpx;
+}
+
+.filter-item {
+  display: inline-block;
+  padding:12rpx 32rpx;
+  background: #fff;
+  border-radius:30rpx;
+  font-size:26rpx;
+  color: #666;
+}
+
+.filter-item.active {
+  background: #ff6b6b;
+  color: #fff;
+  font-weight:600;
+}
+
+/* 工具栏 */
+.list-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding:20rpx 32rpx;
+  font-size:26rpx;
+  color: #999;
+}
+
+.book-count {
+  font-size:26rpx;
+  color: #999;
+}
+
+/* 书籍网格 */
+.book-grid {
+  padding:0 32rpx 32rpx;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:24rpx;
+}
+
+.book-card {
+  background: #fff;
+  border-radius:24rpx;
+  overflow: hidden;
+  box-shadow:0 4rpx 16rpx rgba(0,0,0,0.05);
+}
+
+.book-cover-wrap {
+  position: relative;
+  width:100%;
+  padding-top:130%;
+}
+
+.book-cover-grid {
+  position: absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cover-title {
+  color: #fff;
+  font-size:36rpx;
+  font-weight: bold;
+  text-shadow:0 4rpx 16rpx rgba(0,0,0,0.3);
+}
+
+.book-badge {
+  position: absolute;
+  bottom:12rpx;
+  right:12rpx;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  font-size:20rpx;
+  padding:4rpx 16rpx;
+  border-radius:12rpx;
+}
+
+/* 书籍信息 */
+.book-info {
+  padding:20rpx 24rpx 24rpx;
+}
+
+.book-title-card {
+  font-size:28rpx;
+  font-weight:600;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
+.book-author-card {
+  font-size:24rpx;
+  color: #999;
+  margin-top:8rpx;
+  display: block;
+}
+
+.book-tags {
+  display: flex;
+  gap:8rpx;
+  margin-top:12rpx;
+}
+
+.tag {
+  background: #f5f5f5;
+  color: #666;
+  font-size:20rpx;
+  padding:4rpx 16rpx;
+  border-radius:8rpx;
+}
+
+.tag.featured {
+  background: #fff3e0;
+  color: #ff9800;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding:100rpx 0;
+}
+
+.empty-icon {
+  font-size:80rpx;
+  margin-bottom:20rpx;
+}
+
+.empty-text {
+  font-size:28rpx;
+  color: #999;
+}

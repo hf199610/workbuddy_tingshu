@@ -1,0 +1,36 @@
+{
+  "total_books": 3,
+  "completed": 3,
+  "script_only": 0,
+  "failed": 0,
+  "books": [
+    {
+      "book_name": "活着",
+      "book_id": "book_a17f0b7e",
+      "author": "余华",
+      "script_length": 430,
+      "quotes_count": 5,
+      "audio_path": "D:\\小程序开发\\workbud_tingshu\\pipeline\\output\\audios\\活着.wav",
+      "status": "completed"
+    },
+    {
+      "book_name": "百年孤独",
+      "book_id": "book_b66a3475",
+      "author": "加西亚·马尔克斯",
+      "script_length": 442,
+      "quotes_count": 5,
+      "audio_path": "D:\\小程序开发\\workbud_tingshu\\pipeline\\output\\audios\\百年孤独.wav",
+      "status": "completed"
+    },
+    {
+      "book_name": "平凡的世界",
+      "book_id": "book_84f83137",
+      "author": "路遥",
+      "script_length": 439,
+      "quotes_count": 5,
+      "audio_path": "D:\\小程序开发\\workbud_tingshu\\pipeline\\output\\audios\\平凡的世界.wav",
+      "status": "completed"
+    }
+  ],
+  "created_at": "2026-05-13 21:38:42"
+}

@@ -1,0 +1,13 @@
+<!--components/mini-player/mini-player.wxml - 迷你播放器组件-->
+<view class="mini-player" wx:if="{{show}}" bindtap="onPlayerTap">
+  <view class="player-cover" style="background-color: {{coverColor}}">
+    <text class="cover-text">{{title[0] || '?'}}</text>
+  </view>
+  <view class="player-info">
+    <text class="player-title">{{title || '未播放'}}</text>
+    <text class="player-subtitle">{{subtitle || ''}}</text>
+  </view>
+  <view class="player-btn {{isPlaying ? 'playing' : ''}}" catchtap="onPlayTap">
+    <text>{{isPlaying ? '❚❚' : '▶'}}</text>
+  </view>
+</view>

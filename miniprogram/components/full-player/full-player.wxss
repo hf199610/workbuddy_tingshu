@@ -1,0 +1,369 @@
+/* components/full-player/full-player.wxss - 全屏播放器样式（含字幕） */
+
+/* 容器 */
+.full-player {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 背景 */
+.player-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.bg-blur {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+}
+
+/* 主内容（改为 scroll-view 支持整体滚动） */
+.player-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 40rpx;
+  box-sizing: border-box;
+}
+
+/* 头部按钮容器 */
+.header-btns {
+  position: fixed;
+  top: 60rpx;
+  left: 0;
+  right: 0;
+  padding: 0 30rpx;
+  display: flex;
+  justify-content: space-between;
+  z-index: 10;
+}
+
+/* 关闭按钮 */
+.back-btn, .close-btn {
+  width: 70rpx;
+  height: 70rpx;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  color: #fff;
+}
+
+.back-btn {
+  font-size: 50rpx;
+  font-weight: 300;
+}
+
+/* 封面区域 */
+.cover-section {
+  margin-top: 140rpx;
+  margin-bottom: 40rpx;
+  flex-shrink: 0;
+}
+
+.cover-container {
+  width: 240rpx;
+  height: 320rpx;
+  border-radius: 20rpx;
+  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.cover-container.playing {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10rpx); }
+}
+
+.cover {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cover-text {
+  font-size: 100rpx;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* 文字信息 */
+.info-section {
+  text-align: center;
+  margin-bottom: 24rpx;
+  flex-shrink: 0;
+}
+
+.player-title {
+  display: block;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 12rpx;
+}
+
+.player-author {
+  display: block;
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 8rpx;
+}
+
+.player-duration {
+  display: block;
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ==================== 字幕区域 ==================== */
+.subtitle-section {
+  width: 100%;
+  height: 400rpx;
+  margin: 16rpx 0 24rpx;
+  flex-shrink: 0;
+  position: relative;
+  border-radius: 20rpx;
+  background: rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+.subtitle-scroll {
+  height: 100%;
+  padding: 0 8rpx;
+}
+
+/* 上下渐隐遮罩 */
+.subtitle-section::before,
+.subtitle-section::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 60rpx;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.subtitle-section::before {
+  top: 0;
+  background: linear-gradient(rgba(255,255,255,0.05), transparent);
+}
+
+.subtitle-section::after {
+  bottom: 0;
+  background: linear-gradient(transparent, rgba(255,255,255,0.05));
+}
+
+.subtitle-spacer {
+  height: 80rpx;
+}
+
+.subtitle-item {
+  padding: 16rpx 24rpx;
+  margin: 0 8rpx 6rpx;
+  border-radius: 12rpx;
+  transition: all 0.35s ease;
+}
+
+.subtitle-text {
+  font-size: 27rpx;
+  line-height: 1.9;
+  color: rgba(255, 255, 255, 0.35);
+  transition: all 0.35s ease;
+}
+
+/* 当前播放的字句 */
+.subtitle-item.active {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.subtitle-item.active .subtitle-text {
+  color: #ffffff;
+  font-size: 30rpx;
+  font-weight: 500;
+}
+
+/* 已播放过的字句 */
+.subtitle-item.played .subtitle-text {
+  color: rgba(255, 255, 255, 0.22);
+}
+
+/* 无字幕提示 */
+.no-subtitle-tip {
+  padding: 40rpx 0;
+  text-align: center;
+}
+
+.no-subtitle-text {
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* ==================== 进度条 ==================== */
+.progress-section {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 40rpx;
+  flex-shrink: 0;
+}
+
+.time {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.6);
+  width: 100rpx;
+}
+
+.current-time {
+  text-align: right;
+  padding-right: 20rpx;
+}
+
+.total-time {
+  text-align: left;
+  padding-left: 20rpx;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 8rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4rpx;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #00ff88;
+  border-radius: 4rpx;
+  transition: width 0.1s linear;
+}
+
+.progress-dot {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 24rpx;
+  height: 24rpx;
+  background: #00ff88;
+  border-radius: 50%;
+  box-shadow: 0 0 10rpx rgba(0, 255, 136, 0.5);
+}
+
+/* ==================== 播放控制 ==================== */
+.controls-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40rpx;
+  flex-shrink: 0;
+}
+
+.control-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.control-btn .icon-text {
+  font-size: 48rpx;
+}
+
+.control-btn.prev,
+.control-btn.next {
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.control-btn.play {
+  width: 140rpx;
+  height: 140rpx;
+  background: #00ff88;
+  border-radius: 50%;
+  margin: 0 50rpx;
+  box-shadow: 0 10rpx 30rpx rgba(0, 255, 136, 0.4);
+}
+
+.control-btn.play .icon-text {
+  font-size: 56rpx;
+  color: #1a1a2e;
+}
+
+.control-btn.play.playing {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.control-btn.play.playing .icon-text {
+  color: #fff;
+}
+
+/* ==================== 额外操作 ==================== */
+.extra-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 100rpx;
+  margin-bottom: 40rpx;
+  flex-shrink: 0;
+}
+
+.extra-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.extra-btn .icon-text:first-child {
+  font-size: 48rpx;
+}
+
+.extra-btn.active .icon-text {
+  color: #ff6b6b;
+}
+
+.btn-label {
+  font-size: 22rpx;
+}
+
+/* ==================== 底部提示 ==================== */
+.bottom-tip {
+  padding: 30rpx 0;
+  padding-bottom: 60rpx;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.bottom-tip .tip-text {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.4);
+}

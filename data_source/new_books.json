@@ -1,0 +1,34 @@
+[
+  {
+    "title": "小王子",
+    "author": "未知作者",
+    "publisher": "",
+    "isbn": "",
+    "publishDate": "",
+    "pages": 0,
+    "description": "",
+    "coverColor": "#4ECDC4",
+    "score": 0,
+    "source": "crawl",
+    "sourceUrl": "https://book.douban.com/subject/1007308/",
+    "crawlTime": 1778753881102,
+    "createTime": 1778753881102,
+    "updateTime": 1778753881102
+  },
+  {
+    "title": "红楼梦",
+    "author": "未知作者",
+    "publisher": "",
+    "isbn": "",
+    "publishDate": "",
+    "pages": 0,
+    "description": "",
+    "coverColor": "#9B59B6",
+    "score": 0,
+    "source": "crawl",
+    "sourceUrl": "https://book.douban.com/subject/1007308/",
+    "crawlTime": 1778753884720,
+    "createTime": 1778753884720,
+    "updateTime": 1778753884720
+  }
+]

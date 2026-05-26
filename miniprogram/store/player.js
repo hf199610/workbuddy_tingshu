@@ -1,0 +1,178 @@
+// store/player.js - 播放器状态管理（支持真实音频 + 字幕同步）
+class PlayerStore {
+  constructor() {
+    this.isPlaying = false
+    this.currentBook = null
+    this.currentQuote = null
+    this.progress = 0
+    this.duration = 0
+    this.audioContext = null
+    this.subtitles = []       // 字幕数据 [{index, start, end, text}, ...]
+    this.currentSubtitleIndex = -1  // 当前字幕索引
+    this.listeners = []
+  }
+
+  init(audioContext) {
+    this.audioContext = audioContext
+
+    audioContext.onPlay(() => {
+      this.isPlaying = true
+      this.notifyListeners()
+    })
+
+    audioContext.onPause(() => {
+      this.isPlaying = false
+      this.notifyListeners()
+    })
+
+    audioContext.onStop(() => {
+      this.isPlaying = false
+      this.notifyListeners()
+    })
+
+    audioContext.onEnded(() => {
+      this.isPlaying = false
+      this.progress = 0
+      this.currentSubtitleIndex = -1
+      this.notifyListeners()
+    })
+
+    audioContext.onTimeUpdate(() => {
+      this.progress = Math.floor(audioContext.currentTime)
+      this.duration = Math.floor(audioContext.duration || 0)
+
+      // 字幕同步：根据当前播放时间找到对应字幕
+      this._updateSubtitleIndex(audioContext.currentTime)
+
+      this.notifyListeners()
+    })
+
+    audioContext.onError((err) => {
+      console.error('音频播放错误:', err)
+      this.isPlaying = false
+      this.notifyListeners()
+    })
+  }
+
+  // 更新当前字幕索引
+  _updateSubtitleIndex(currentTime) {
+    if (!this.subtitles || this.subtitles.length === 0) return
+
+    // 二分查找：找到 currentTime 所在的字幕区间
+    let left = 0
+    let right = this.subtitles.length - 1
+    let found = -1
+
+    while (left <= right) {
+      const mid = Math.floor((left + right) / 2)
+      const sub = this.subtitles[mid]
+
+      if (currentTime >= sub.start && currentTime <= sub.end) {
+        found = mid
+        break
+      } else if (currentTime < sub.start) {
+        right = mid - 1
+      } else {
+        left = mid + 1
+      }
+    }
+
+    // 如果没找到精确匹配，找到最近的已过字幕
+    if (found === -1 && left > 0 && left <= this.subtitles.length) {
+      const prev = this.subtitles[left - 1]
+      if (currentTime >= prev.start) {
+        found = left - 1
+      }
+    }
+
+    if (found !== this.currentSubtitleIndex) {
+      this.currentSubtitleIndex = found
+    }
+  }
+
+  play(book) {
+    this.currentBook = book
+    // 支持 subtitles 或 sentences 字段
+    this.subtitles = (book.subtitles || book.sentences || []).map((s, i) => ({
+      index: i,
+      start: s.startTime || s.start || 0,
+      end: s.endTime || s.end || 0,
+      text: s.text
+    }))
+    this.currentSubtitleIndex = -1
+
+    if (this.audioContext) {
+      // 如果有真实音频 URL，播放真实音频
+      if (book.audioUrl && book.audioUrl.length > 0) {
+        this.audioContext.src = book.audioUrl
+        this.audioContext.title = book.title
+        this.audioContext.episodeName = book.title + ' - 精华讲解'
+        this.audioContext.singer = book.author || ''
+        this.audioContext.coverImgUrl = book.coverUrl || ''
+        this.audioContext.play()
+        console.log('播放真实音频:', book.audioUrl)
+      } else {
+        // 无音频 URL，保持模拟模式（不设置 src，仅更新状态）
+        console.log('无音频URL，模拟播放模式')
+        this.isPlaying = true
+        this.notifyListeners()
+      }
+    } else {
+      this.isPlaying = true
+      this.notifyListeners()
+    }
+  }
+
+  pause() {
+    if (this.audioContext) {
+      this.audioContext.pause()
+    }
+    this.isPlaying = false
+    this.notifyListeners()
+  }
+
+  toggle() {
+    if (this.isPlaying) {
+      this.pause()
+    } else {
+      this.play(this.currentBook)
+    }
+  }
+
+  seek(position) {
+    if (this.audioContext) {
+      this.audioContext.seek(position)
+    }
+    // 更新字幕索引
+    this._updateSubtitleIndex(position)
+    this.notifyListeners()
+  }
+
+  // 获取格式化的播放数据（供 UI 使用）
+  getPlayData() {
+    return {
+      isPlaying: this.isPlaying,
+      currentBook: this.currentBook,
+      progress: this.progress,
+      duration: this.duration,
+      subtitles: this.subtitles,
+      currentSubtitleIndex: this.currentSubtitleIndex,
+      hasAudio: !!(this.currentBook && this.currentBook.audioUrl),
+    }
+  }
+
+  addListener(callback) {
+    this.listeners.push(callback)
+  }
+
+  removeListener(callback) {
+    this.listeners = this.listeners.filter(cb => cb !== callback)
+  }
+
+  notifyListeners() {
+    const data = this.getPlayData()
+    this.listeners.forEach(cb => cb(data))
+  }
+}
+
+module.exports = PlayerStore

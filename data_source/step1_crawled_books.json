@@ -1,0 +1,52 @@
+[
+  {
+    "title": "小王子",
+    "author": "安托万·德·圣-埃克苏佩里",
+    "description": "这是一本足以让人永葆童心的不朽经典，讲述了来自B-612星球的小王子的太空奇遇。",
+    "category": 2,
+    "categoryName": "儿童文学",
+    "publisher": "人民文学出版社",
+    "source": "manual",
+    "crawlTime": 1778753880685
+  },
+  {
+    "title": "活着",
+    "author": "余华",
+    "description": "讲述了农村人福贵悲惨的人生遭遇，展现了人生的无奈和命运的残酷。",
+    "category": 6,
+    "categoryName": "文学小说",
+    "publisher": "作家出版社",
+    "source": "manual",
+    "crawlTime": 1778753880685
+  },
+  {
+    "title": "三体",
+    "author": "刘慈欣",
+    "description": "讲述了地球人类文明和三体文明之间的信息交流、生死搏杀，荣获第73届雨果奖。",
+    "category": 10,
+    "categoryName": "科幻悬疑",
+    "publisher": "重庆出版社",
+    "source": "manual",
+    "crawlTime": 1778753880685
+  },
+  {
+    "title": "解忧杂货店",
+    "author": "东野圭吾",
+    "description": "僻静的街道旁有一家杂货店，只要写下烦恼投进卷帘门的投信口，第二天就会在店后的牛奶箱里得到回答。",
+    "category": 10,
+    "categoryName": "科幻悬疑",
+    "publisher": "南海出版公司",
+    "source": "manual",
+    "crawlTime": 1778753880685
+  },
+  {
+    "title": "小王子",
+    "author": "安托万·德·圣-埃克苏佩里",
+    "description": "这是一本足以让人永葆童心的不朽经典...",
+    "category": 2,
+    "categoryName": "儿童文学",
+    "publisher": "人民文学出版社",
+    "source": "manual",
+    "crawlTime": 1778753880685
+  }
+]

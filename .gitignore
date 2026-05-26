@@ -1,28 +1,65 @@
-# 敏感信息
+# ========================
+# WeChat Mini Program
+# ========================
+/miniprogram/node_modules/
+/miniprogram/.node_modules/
+
+# ========================
+# Python Pipeline
+# ========================
+/pipeline/__pycache__/
+/pipeline/*.pyc
+/pipeline/*.pyo
+/pipeline/.venv/
+/pipeline/venv/
+/pipeline/env/
+/pipeline/*.egg-info/
+/pipeline/output/
+/pipeline/modules/__pycache__/
+
+# ========================
+# Sensitive Config (API Keys)
+# ========================
+/pipeline/config.yaml
+/project.private.config.json
 .env
-.env.local
-.env.*.local
+pipeline/.env
+data_source/.env
 
-# Python
-__pycache__/
-*.py[cod]
-*.pyc
-venv/
-env/
-.venv/
+# ========================
+# Exclude These Files
+# ========================
+.workbuddy/
+docs/
+data_source/*.csv
+data_source/*.xlsx
+data_source/*.txt
+nul
 
-# 微信小程序
-node_modules/
+# ========================
+# Logs
+# ========================
+*.log
+/pipeline/modules/logs/
 
+# ========================
 # IDE
+# ========================
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
 
-# 日志
-*.log
-
-# 系统文件
+# ========================
+# System Files
+# ========================
 .DS_Store
 Thumbs.db
+ehthumbs.db
+
+# ========================
+# WeChat Related
+# ========================
+/miniprogram/services/api.js
+*.wxtmp

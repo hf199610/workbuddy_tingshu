@@ -1,0 +1,242 @@
+/* pages/book-detail/book-detail.wxss - 书籍详情样式 */
+
+.page-detail {
+  padding-bottom: 200rpx;
+}
+
+/* 头部区域 */
+.detail-header {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  padding: 88rpx 30rpx 60rpx;
+  position: relative;
+}
+
+.back-btn, .menu-btn {
+  position: absolute;
+  top: 100rpx;
+  color: #fff;
+  font-size: 40rpx;
+  z-index: 10;
+}
+
+.back-btn { left: 30rpx; }
+.menu-btn { right: 30rpx; }
+
+.book-cover-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 60rpx;
+}
+
+.book-cover {
+  width: 280rpx;
+  height: 360rpx;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+.cover-title {
+  color: #fff;
+  font-size: 44rpx;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* 书籍信息 */
+.detail-info {
+  padding: 30rpx;
+  background: #fff;
+  margin-top: -30rpx;
+  border-radius: 30rpx 30rpx 0 0;
+  position: relative;
+  z-index: 5;
+}
+
+.book-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.book-author {
+  font-size: 26rpx;
+  color: #999;
+  display: block;
+  margin-bottom: 16rpx;
+}
+
+.book-meta {
+  display: flex;
+  gap: 12rpx;
+  margin-bottom: 24rpx;
+}
+
+.meta-tag {
+  background: #f5f5f5;
+  padding: 6rpx 16rpx;
+  border-radius: 6rpx;
+  font-size: 22rpx;
+  color: #666;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 20rpx;
+}
+
+.btn-favorite {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  padding: 20rpx;
+  border: 2rpx solid #e0e0e0;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+}
+
+.btn-favorite.active {
+  border-color: #ff4444;
+  color: #ff4444;
+}
+
+.btn-play {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  padding: 20rpx;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+/* 区块 */
+.section {
+  padding: 24rpx 30rpx;
+  background: #fff;
+  margin-top: 20rpx;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.section-toggle {
+  font-size: 24rpx;
+  color: #667eea;
+}
+
+/* 内容简介 */
+.intro-content {
+  font-size: 26rpx;
+  line-height: 1.8;
+  color: #666;
+}
+
+.intro-content.collapsed {
+  max-height: 120rpx;
+  overflow: hidden;
+}
+
+.intro-content.expanded {
+  max-height: none;
+}
+
+.intro-actions {
+  margin-top: 16rpx;
+  font-size: 24rpx;
+  color: #667eea;
+}
+
+/* 金句列表 */
+.quote-list {
+  padding: 0;
+}
+
+.quote-item {
+  padding: 20rpx 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.quote-item:last-child {
+  border-bottom: none;
+}
+
+.quote-text {
+  font-size: 28rpx;
+  line-height: 1.8;
+  color: #333;
+  display: block;
+  margin-bottom: 12rpx;
+}
+
+.quote-actions {
+  display: flex;
+  gap: 24rpx;
+  font-size: 22rpx;
+  color: #999;
+}
+
+.quote-actions text {
+  padding: 4rpx 0;
+}
+
+/* 音频卡片 */
+.audio-card {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin: 20rpx 30rpx;
+  display: flex;
+  align-items: center;
+  color: #fff;
+}
+
+.audio-icon {
+  font-size: 48rpx;
+  margin-right: 20rpx;
+}
+
+.audio-info {
+  flex: 1;
+}
+
+.audio-title {
+  font-size: 26rpx;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4rpx;
+}
+
+.audio-duration {
+  font-size: 22rpx;
+  opacity: 0.8;
+}
+
+.audio-play-btn {
+  font-size: 48rpx;
+  width: 80rpx;
+  height: 80rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

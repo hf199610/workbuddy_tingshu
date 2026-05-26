@@ -1,0 +1,10 @@
+{
+  "name": "sendFeedback",
+  "version": "1.0.0",
+  "description": "意见反馈云函数",
+  "main": "index.js",
+  "dependencies": {
+    "nodemailer": "^8.0.8",
+    "wx-server-sdk": "~2.6.3"
+  }
+}

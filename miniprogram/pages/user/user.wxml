@@ -1,53 +1,53 @@
-<!--pages/user/user.wxml - ä¸ªäººä¸­å¿ƒï¼ˆåŒ¹é…åŸå‹ï¼‰-->
+<!--pages/user/user.wxml - ¸öÈËÖĞĞÄ£¨Æ¥ÅäÔ­ĞÍ£©-->
 <view class="page-container">
-  <!-- ç”¨æˆ·ä¿¡æ¯åŒº -->
+  <!-- ÓÃ»§ĞÅÏ¢Çø -->
   <view class="user-header">
     <view class="user-info-wrap">
-      <view class="avatar">ğŸ‘¤</view>
+      <view class="avatar">{{userInfo.avatar || '?'}}</view>
       <view class="user-detail">
-        <text class="nickname">å°é±¼å„¿</text>
-        <text class="user-id">ID: 88866688</text>
+        <text class="nickname">{{userInfo.nickname || 'Î´µÇÂ¼'}}</text>
+        <text class="user-id">ID: {{userInfo.id || userInfo.openid || '--'}}</text>
       </view>
-      <text class="user-edit">ç¼–è¾‘ ></text>
+      <text class="user-edit">±à¼­ ></text>
     </view>
   </view>
 
-  <!-- æ•°æ®ç»Ÿè®¡ -->
+  <!-- Êı¾İÍ³¼Æ -->
   <view class="data-stats">
     <view class="stat-card">
-      <text class="stat-icon">ğŸ“š</text>
+      <text class="stat-icon">?</text>
       <view class="stat-info">
         <text class="stat-num">{{favBookCount}}</text>
-        <text class="stat-label">æ”¶è—ä¹¦ç±</text>
+        <text class="stat-label">ÊÕ²ØÊé¼®</text>
       </view>
     </view>
     <view class="stat-card">
-      <text class="stat-icon">ğŸ’¬</text>
+      <text class="stat-icon">?</text>
       <view class="stat-info">
         <text class="stat-num">{{favQuoteCount}}</text>
-        <text class="stat-label">æ”¶è—é‡‘å¥</text>
+        <text class="stat-label">ÊÕ²Ø½ğ¾ä</text>
       </view>
     </view>
     <view class="stat-card">
-      <text class="stat-icon">ğŸ§</text>
+      <text class="stat-icon">?</text>
       <view class="stat-info">
         <text class="stat-num">{{listenCount}}</text>
-        <text class="stat-label">å¬ä¹¦è®°å½•</text>
+        <text class="stat-label">ÌıÊé¼ÇÂ¼</text>
       </view>
     </view>
   </view>
 
-  <!-- æ”¶è—Tab -->
+  <!-- ÊÕ²ØTab -->
   <view class="fav-tabs">
     <view class="fav-tab {{currentFavTab === 'books' ? 'active' : ''}}" 
           bindtap="onFavTabTap" 
-          data-type="books">ğŸ“š ä¹¦æœ¬æ”¶è—</view>
+          data-type="books">? Êé±¾ÊÕ²Ø</view>
     <view class="fav-tab {{currentFavTab === 'quotes' ? 'active' : ''}}" 
           bindtap="onFavTabTap" 
-          data-type="quotes">ğŸ’¬ é‡‘å¥æ”¶è—</view>
+          data-type="quotes">? ½ğ¾äÊÕ²Ø</view>
   </view>
 
-  <!-- ä¹¦æœ¬æ”¶è— -->
+  <!-- Êé±¾ÊÕ²Ø -->
   <view class="fav-content" wx:if="{{currentFavTab === 'books'}}">
     <view class="fav-book-grid">
       <view class="fav-book-card" 
@@ -62,12 +62,12 @@
       </view>
     </view>
     <view class="empty-state" wx:if="{{favBooks.length === 0}}">
-      <text class="empty-text">æš‚æ— æ”¶è—ä¹¦ç±</text>
-      <view class="go-explore" bindtap="onGoExplore">å»æ¢ç´¢</view>
+      <text class="empty-text">ÔİÎŞÊÕ²ØÊé¼®</text>
+      <view class="go-explore" bindtap="onGoExplore">È¥Ì½Ë÷</view>
     </view>
   </view>
 
-  <!-- é‡‘å¥æ”¶è— -->
+  <!-- ½ğ¾äÊÕ²Ø -->
   <view class="fav-content" wx:if="{{currentFavTab === 'quotes'}}">
     <view class="fav-quote-list">
       <view class="fav-quote-item" 
@@ -75,22 +75,22 @@
             wx:key="id">
         <text class="fav-quote-text">{{item.content}}</text>
         <view class="fav-quote-meta">
-          <text>â€”â€” {{item.author}}ã€Š{{item.bookName}}ã€‹</text>
+          <text>¡ª¡ª {{item.author}}¡¶{{item.bookName}}¡·</text>
           <view class="fav-quote-actions">
-            <text bindtap="onPlayQuote" data-id="{{item.id}}">â–¶</text>
-            <text bindtap="onCopyQuote" data-content="{{item.content}}">ğŸ“‹</text>
+            <text bindtap="onPlayQuote" data-id="{{item.id}}">?</text>
+            <text bindtap="onCopyQuote" data-content="{{item.content}}">?</text>
           </view>
         </view>
       </view>
     </view>
     <view class="empty-state" wx:if="{{favQuotes.length === 0}}">
-      <text class="empty-text">æš‚æ— æ”¶è—é‡‘å¥</text>
+      <text class="empty-text">ÔİÎŞÊÕ²Ø½ğ¾ä</text>
     </view>
   </view>
 
-  <!-- æœ€è¿‘æ’­æ”¾ -->
+  <!-- ×î½ü²¥·Å -->
   <view class="section-header-card" style="margin-top:20rpx">
-    <text class="section-title">æœ€è¿‘æ’­æ”¾</text>
+    <text class="section-title">×î½ü²¥·Å</text>
   </view>
   <view class="history-list">
     <view class="history-item" 
@@ -109,45 +109,45 @@
         <view class="progress-bar">
           <view class="progress-fill" style="width: {{item.progress || 0}}%"></view>
         </view>
-        <text class="progress-text">å·²å¬ {{item.progress || 0}}%</text>
+        <text class="progress-text">ÒÑÌı {{item.progress || 0}}%</text>
       </view>
     </view>
     <view class="empty-state" wx:if="{{histories.length === 0}}">
-      <text class="empty-text">æš‚æ— æ’­æ”¾è®°å½•</text>
+      <text class="empty-text">ÔİÎŞ²¥·Å¼ÇÂ¼</text>
     </view>
   </view>
 
-  <!-- èœå•åˆ—è¡¨ -->
+  <!-- ²Ëµ¥ÁĞ±í -->
   <view class="menu-card" style="margin-top:32rpx">
     <view class="menu-item" bindtap="onMenuTap" data-type="about">
       <view class="menu-left">
-        <text class="menu-icon-text">â„¹ï¸</text>
-        <text class="menu-text">å…³äºæˆ‘ä»¬</text>
+        <text class="menu-icon-text">??</text>
+        <text class="menu-text">¹ØÓÚÎÒÃÇ</text>
       </view>
-      <text class="menu-arrow">â€º</text>
+      <text class="menu-arrow">?</text>
     </view>
     <view class="menu-item" bindtap="onMenuTap" data-type="privacy">
       <view class="menu-left">
-        <text class="menu-icon-text">ğŸ”’</text>
-        <text class="menu-text">éšç§æ”¿ç­–</text>
+        <text class="menu-icon-text">?</text>
+        <text class="menu-text">ÒşË½Õş²ß</text>
       </view>
-      <text class="menu-arrow">â€º</text>
+      <text class="menu-arrow">?</text>
     </view>
     <view class="menu-item" bindtap="onMenuTap" data-type="feedback">
       <view class="menu-left">
-        <text class="menu-icon-text">ğŸ’¬</text>
-        <text class="menu-text">æ„è§åé¦ˆ</text>
+        <text class="menu-icon-text">?</text>
+        <text class="menu-text">Òâ¼û·´À¡</text>
       </view>
-      <text class="menu-arrow">â€º</text>
+      <text class="menu-arrow">?</text>
     </view>
   </view>
 
   <view class="footer">
-    <text>å¬ä¹¦ Â· è®©é˜…è¯»æ›´ç®€å•</text>
+    <text>ÌıÊé ¡¤ ÈÃÔÄ¶Á¸ü¼òµ¥</text>
   </view>
 </view>
 
-<!-- è¿·ä½ æ’­æ”¾å™¨ -->
+<!-- ÃÔÄã²¥·ÅÆ÷ -->
 <mini-player 
   id="miniPlayer"
   show="{{showMiniPlayer}}"

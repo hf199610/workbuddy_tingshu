@@ -74,7 +74,11 @@ Page({
         id: bookRes.data._id || bookRes.data.id,
         // 兼容字段名
         intro: bookRes.data.intro || bookRes.data.description || '',
-        quotes: bookRes.data.quotes || []
+        quotes: bookRes.data.quotes || [],
+        // 封面和音频字段
+        coverUrl: bookRes.data.coverUrl || '',
+        color: bookRes.data.coverColor || bookRes.data.color || '#667eea',
+        audioUrl: bookRes.data.audioFileId || bookRes.data.audioUrl || ''
       }
 
       // 获取分类名称
@@ -195,8 +199,9 @@ Page({
     const book = this.data.book
     if (!book) return
 
-    // 检查是否有音频
-    if (!book.audioUrl || book.audioUrl.length === 0) {
+    // 检查是否有音频 (audioFileId 或 audioUrl)
+    const hasAudio = (book.audioFileId && book.audioFileId.length > 0) || (book.audioUrl && book.audioUrl.length > 0)
+    if (!hasAudio) {
       wx.showToast({
         title: '音频生成中，敬请期待',
         icon: 'none'

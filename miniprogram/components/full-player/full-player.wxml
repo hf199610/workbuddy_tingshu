@@ -15,7 +15,8 @@
     <!-- 封面区域 -->
     <view class="cover-section">
       <view class="cover-container {{isPlaying ? 'playing' : ''}}">
-        <view class="cover" style="background-color: {{coverColor}}">
+        <image wx:if="{{coverUrl}}" class="cover" src="{{coverUrl}}" mode="aspectFill"></image>
+        <view wx:else class="cover" style="background-color: {{coverColor}}">
           <text class="cover-text">{{title ? title[0] : '?'}}</text>
         </view>
       </view>

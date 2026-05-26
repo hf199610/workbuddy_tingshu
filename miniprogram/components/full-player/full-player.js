@@ -15,6 +15,7 @@ Component({
     author: '',
     duration: '00:00',
     coverColor: '#667eea',
+    coverUrl: '', // 封面图片URL
     isPlaying: false,
     isFavorite: false,
     progress: 0,
@@ -78,6 +79,7 @@ Component({
           title: book.title,
           author: book.author,
           coverColor: book.color || '#667eea',
+          coverUrl: book.coverUrl || '', // 封面图片
           duration: book.audioDurationText || book.duration || '00:00',
           isPlaying: player.isPlaying,
           isFavorite: book.isFavorite || false,

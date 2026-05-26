@@ -7,7 +7,8 @@
     
     <!-- 书籍封面 -->
     <view class="book-cover-wrapper">
-      <view class="book-cover" style="background-color: {{book.color}}">
+      <image wx:if="{{book.coverUrl}}" class="book-cover" src="{{book.coverUrl}}" mode="aspectFill"></image>
+      <view wx:else class="book-cover" style="background-color: {{book.color}}">
         <text class="cover-title">{{book.title}}</text>
       </view>
     </view>
